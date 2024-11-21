@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Synapse.Orders.UnitTest", "Synapse.Orders.UnitTest\Synapse.Orders.UnitTest.csproj", "{3D389B20-CDA7-4981-8299-CF8C826FFFEF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Synapse.Orders", "Synapse.Orders\Synapse.Orders.csproj", "{83CCE878-7093-4428-8052-6F8275274CA9}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3D389B20-CDA7-4981-8299-CF8C826FFFEF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3D389B20-CDA7-4981-8299-CF8C826FFFEF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3D389B20-CDA7-4981-8299-CF8C826FFFEF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3D389B20-CDA7-4981-8299-CF8C826FFFEF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{83CCE878-7093-4428-8052-6F8275274CA9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{83CCE878-7093-4428-8052-6F8275274CA9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{83CCE878-7093-4428-8052-6F8275274CA9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{83CCE878-7093-4428-8052-6F8275274CA9}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {AABEDC87-5C21-4C3A-B78B-F1B060C07701}
+	EndGlobalSection
+EndGlobal
