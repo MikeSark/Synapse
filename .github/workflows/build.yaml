@@ -4,8 +4,7 @@ name: Build Solution on Windows
 on:
   push:
     branches:
-      - main
-      - develop
+      - master      
   pull_request:
     branches:
       - main
