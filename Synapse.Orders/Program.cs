@@ -1,28 +1,7 @@
-﻿using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using Serilog;
-using Serilog.Events;
-using Synapse.Orders.Configuration;
-using Synapse.Orders.Configuration.Interfaces;
-using Synapse.Orders.Services;
-using Synapse.Orders.Services.Interfaces;
-
-
-var app = Host.CreateDefaultBuilder(args)
+﻿var app = Host.CreateDefaultBuilder(args)
     .ConfigureAppConfiguration(ConfigureAppConfiguration)
     .ConfigureLogging(ConfigureLogging)
     .ConfigureServices(ConfigureServices)
-    .ConfigureWebHostDefaults(wb =>
-        {
-            var configuration = new ConfigurationBuilder()
-                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-                .Build();
-
-            var synapseOptions = SynapseOptions.NewInstance();
-            configuration.GetSection(Constants.SynapseOrderMonitorKey).Bind(synapseOptions);
-        })
     .Build();
 
 await app.RunAsync();
@@ -45,7 +24,7 @@ static void ConfigureLogging(HostBuilderContext hostContext, ILoggingBuilder bui
     var serilogLogger = new LoggerConfiguration()
         .MinimumLevel.Debug() // Set the minimum log level
         .Enrich.FromLogContext()
-        .WriteTo.Logger(lc => lc.Filter.ByIncludingOnly(evt => evt.Level == LogEventLevel.Information)
+        .WriteTo.Logger(lc => lc.Filter.ByIncludingOnly(evt => evt.Level >= LogEventLevel.Information)
                             .Filter.ByExcluding(e => e.Properties.ToString().Contains("Microsoft"))
                             .MinimumLevel.Override("Microsoft.Hosting.Lifetime", LogEventLevel.Fatal)
                             .MinimumLevel.Override("Microsoft.Hosting", LogEventLevel.Fatal)
@@ -57,7 +36,7 @@ static void ConfigureLogging(HostBuilderContext hostContext, ILoggingBuilder bui
                             .MinimumLevel.Override("Microsoft.Hosting.Lifetime", LogEventLevel.Fatal)
                             .MinimumLevel.Override("Microsoft.Hosting", LogEventLevel.Fatal)
                             .MinimumLevel.Override("Microsoft", LogEventLevel.Fatal)
-                            .WriteTo.File("logs/app-.log",
+                            .WriteTo.File("logs/synapse_orders.log",
                                           rollingInterval: RollingInterval.Day,
                                           retainedFileCountLimit: 7,
                                           shared: true,
@@ -85,14 +64,29 @@ static void ConfigureServices(HostBuilderContext hostContext, IServiceCollection
         .Validate(op => !string.IsNullOrEmpty(op.AlertBaseUrl), "AlertBaseUrl must not be empty.")
         .Validate(op => !string.IsNullOrEmpty(op.UpdateBaseUrl), "UpdateBaseUrl must not be empty.");
 
-    services.AddHostedService<SynapseMonitoringService>();
-
     services.AddHttpClient("SynpaseHttpClient", client => { client.DefaultRequestHeaders.Add("Accept", "application/json"); });
     services.AddScoped<ISynpaseAlertsService, SynpaseAlertsService>();
     services.AddScoped<ISynpaseEquipmentOrdersService, SynpaseEquipmentOrdersService>();
     services.AddScoped<ISynpaseUpdateorderService, SynpaseUpdateorderService>();
+
+
+    /*
+        to simplify the demo, I have moved the functionlity from source code provided to me
+        to a few service classes.
     
-
-
-
+        I added a new monitoring class that implements IHostedLifetimeService, which runs indefinetly,
+        check for orders and process them as per instructions in the source code provided, pause for 
+        a specific time in secodns identified in appsettings.json file. 
+    
+        The Monitoring repeats the process until the service is stopped. there are few ways that we can deploy this
+        in a production environment
+    
+        1. Simply run this as an autostart executable on target machine
+        2. implement a Windows Service that starts and stops the monitoring service        
+        3. As a Docker Container, Kubernetes Pod, 
+        4. As a Azure Function, AWS Lambda Function, Google Cloud Function
+        8. As a Azure WebJob     
+    
+    */
+    services.AddHostedService<SynapseMonitoringService>();
 }

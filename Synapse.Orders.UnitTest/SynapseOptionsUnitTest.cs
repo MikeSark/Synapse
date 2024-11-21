@@ -1,6 +1,3 @@
-using Synapse.Orders.Configuration;
-using Synapse.Orders.Configuration.Interfaces;
-
 namespace Synapse.Orders.UnitTest;
 
 public class SynapseOptionsUnitTest

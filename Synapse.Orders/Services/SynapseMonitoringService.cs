@@ -1,12 +1,4 @@
-﻿using System.Text;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using Newtonsoft.Json.Linq;
-using Synapse.Orders.Configuration;
-using Synapse.Orders.Services.Interfaces;
-
-namespace Synapse.Orders.Services;
+﻿namespace Synapse.Orders.Services;
 
 public class SynapseMonitoringService : IHostedLifecycleService
 {
@@ -17,6 +9,9 @@ public class SynapseMonitoringService : IHostedLifecycleService
     private readonly ISynpaseEquipmentOrdersService _synpaseEquipmentOrdersService;
     private readonly ISynpaseUpdateorderService _synpaseUpdateorderService;
     private readonly ISynpaseAlertsService _synpaseAlertsService;
+
+
+    private readonly CancellationTokenSource _cts = new();
 
     public SynapseMonitoringService(ILogger<SynapseMonitoringService> logger, IOptions<SynapseOptions> synapseOptions,
                                     ISynpaseEquipmentOrdersService synpaseEquipmentOrdersService,
@@ -54,7 +49,6 @@ public class SynapseMonitoringService : IHostedLifecycleService
     public async Task StartedAsync(CancellationToken cancellationToken)
     {
         _logger.LogDebug("StartedAsync");
-
         try
         {
             while (!cancellationToken.IsCancellationRequested)
@@ -67,6 +61,7 @@ public class SynapseMonitoringService : IHostedLifecycleService
                 }
 
                 // wait xx seconds and retry again..
+                _logger.LogInformation($"Will pause execution for {_synapseOptions.RefreshInterval} seconds. ");
                 await Task.Delay((_synapseOptions.RefreshInterval * 1000), cancellationToken);
 
                 _logger.LogDebug($"In the Loop: {DateTime.Now:F}");

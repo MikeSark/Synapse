@@ -1,10 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using Newtonsoft.Json.Linq;
-using Synapse.Orders.Configuration;
-using Synapse.Orders.Services.Interfaces;
-
-namespace Synapse.Orders.Services;
+﻿namespace Synapse.Orders.Services;
 
 public class SynpaseUpdateorderService : ISynpaseUpdateorderService
 {
@@ -19,7 +13,6 @@ public class SynpaseUpdateorderService : ISynpaseUpdateorderService
         _synapseOptions = redditOptions.Value;
         _httpClient = httpClientFactory.CreateClient();
     }
-
 
     public async Task<bool> UpdateEquipmentOrder(JObject order)
     {

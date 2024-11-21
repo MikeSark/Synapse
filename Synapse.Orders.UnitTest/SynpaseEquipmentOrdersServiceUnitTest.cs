@@ -1,8 +1,4 @@
-﻿using Moq;
-using Newtonsoft.Json.Linq;
-using Synapse.Orders.Services.Interfaces;
-
-namespace Synapse.Orders.UnitTest;
+﻿namespace Synapse.Orders.UnitTest;
 
 public class SynpaseEquipmentOrdersServiceUnitTest
 {

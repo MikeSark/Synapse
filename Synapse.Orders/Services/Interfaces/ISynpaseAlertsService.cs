@@ -1,6 +1,4 @@
-﻿using Newtonsoft.Json.Linq;
-
-namespace Synapse.Orders.Services.Interfaces;
+﻿namespace Synapse.Orders.Services.Interfaces;
 
 public interface ISynpaseAlertsService
 {

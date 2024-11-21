@@ -1,7 +1,4 @@
-﻿using System.Drawing;
-using Synapse.Orders.Configuration.Interfaces;
-
-namespace Synapse.Orders.Configuration;
+﻿namespace Synapse.Orders.Configuration;
 
 public class SynapseOptions : ISynapseOptions
 {
